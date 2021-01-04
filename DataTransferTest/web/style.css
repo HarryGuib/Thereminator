@@ -1,0 +1,25 @@
+table{
+    width: 100%;
+    height: 100%;
+    background-color: cyan;
+
+}
+
+canvas{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.gradient{
+    background-blend-mode: multiply;
+    background-image: url("grid.png"),linear-gradient(to right, purple,orange),linear-gradient( white,black);
+    
+    background-repeat: repeat,no-repeat,no-repeat;
+
+    
+}
+
+
+
+
