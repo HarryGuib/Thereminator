@@ -1,18 +1,15 @@
 import numpy as np
+import rtmidi
+import mido
 import cv2
-import eel
 from numpy.lib.function_base import median
-
-firstCheck = True
 
 #cap = cv2.VideoCapture('Micro-dance_2_.avi')
 cap = cv2.VideoCapture(0)
 
-eel.init('web')
-# @eel.expose
-# def fromPyToJS(x):
-#     print('Hello from %s' % x)
 
+print("MIDI output ports: ", mido.get_output_names())
+midiOutput = mido.open_output("2- LoopBe Internal MIDI 1")
 
 def do_nothing():
     return
@@ -22,7 +19,17 @@ cv2.createTrackbar('Hue','HSV',44,179, do_nothing)
 cv2.createTrackbar('Saturation','HSV',51,255, do_nothing)
 cv2.createTrackbar('Value','HSV',37,255, do_nothing)
 
+def sendControlchange(control, value):
+	message = mido.Message('control_change', control=control, value=value)
+	midiOutput.send(message)
 
+def sendNoteOn(note, velocity):
+	message = mido.Message('note_on', note=note, velocity=velocity)
+	midiOutput.send(message)
+
+def sendNoteOff(note, velocity):
+	message = mido.Message('note_off', note=note, velocity=velocity)
+	midiOutput.send(message)
 
 while(cap.isOpened()):
 
@@ -58,12 +65,16 @@ while(cap.isOpened()):
     if (len(contours)>0):
         #soll alle contours durchgehen (alle figuren die auftauchen)
         for cnt in contours:
-            #cnt = contours[0]
+            cnt = contours[0]
             M = cv2.moments(cnt)
             if (M['m00']>0):
                 cx = int(M['m10']/M['m00'])
                 cy = int(M['m01']/M['m00'])
                 cv2.circle(frame,(cx,cy),2,(255,255,0),-1)
+                valueX = (cx / 640) * 128
+                valueY = (cy / 480) * 128
+                print("valueY"+str(valueY))
+                sendNoteOn(int(valueX), int(valueY))
 
                 #Box mit Winkel
                 rect = cv2.minAreaRect(cnt)
@@ -73,20 +84,25 @@ while(cap.isOpened()):
 
                 #Box ohne Winkel
                 x,y,w,h = cv2.boundingRect(cnt)
-                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)                       
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
 
+
+
+
+
+
+    
 
     #normale frame darstellen
     cv2.imshow("FRAME",frame)
 
     #Mask frame darstellen
     cv2.imshow("MASK",medianFrame)
+
+
+
     if cv2.waitKey(25)!=-1:
         break
 
-eel.fromJsToPY('Python World')
-eel.start("index.html")
 cap.release()
 cv2.destroyAllWindows()
-
-

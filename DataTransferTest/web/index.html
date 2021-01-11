@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Hello World</title>
-        <script type ="text/javascript" src="/eel.js"></script>
-        <script type="text/javascript" src="mouseScript.js"></script>
-
-            
-        </script>
-    </head>
-    <body></body>
+	<head>
+		<title>WebMidi Client</title>
+		<script src="code.js"></script>
+	</head>
+	<body onload="initialize()">
+		MIDI Input: <select id="inputportselector"></select>
+		<button type="button" id="connectbutton">Öffnen</button><br>
+		incoming message: <span id="label">undefined</span>
+	</body>
 </html>
