@@ -38,15 +38,14 @@ function initialize(){
 				document.getElementById("inputportselector").add(opt);
 			});
 
-			document.getElementById("connectbutton").addEventListener("click", onConnect);
-			function onConnect(){
+			// document.getElementById("connectbutton").addEventListener("click", onConnect);
+			// function onConnect(){
 				var optionsMenu = document.getElementById("inputportselector");
 				var portName = optionsMenu.options[optionsMenu.selectedIndex].text;
 		
 				initializeInputPort(portName);
-			}
-		}
-	
+			//}
+		}	
 	}
 	
 	function failure () {
@@ -65,7 +64,7 @@ function initialize(){
 			X = res[1];
 			Y = res[2];
 		}
-		console.log("X: "+res[1]+" Y:"+res[2]);
+		//console.log("X: "+res[1]+" Y:"+res[2]);
 		// Darstellung der MIDI-Strings im Textfeld
 		document.getElementById("label").innerHTML = string;
 		
@@ -85,22 +84,23 @@ oscillatorNode.start();
 
 
 let freq = function(mouseX){
-    return((mouseX/innerWidth)*maxFreq);
+    return((mouseX/127)*maxFreq);
 }
 
 let vol = function(mouseY){
-    return((mouseY/innerHeight));
+    return((mouseY/127));
 }
 
+// document.addEventListener("mousemove", function (e) {
+// if (mouseDown){
+	setInterval(function(){ 
+		console.log("X: "+X+ " Y: "+Y)
+		oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
+		gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
+	}, 100);
 
-
-
-document.addEventListener("mousemove", function (e) {
-if (mouseDown){
-    oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
-    gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
-}
-})
+// }
+// })
 
 
 

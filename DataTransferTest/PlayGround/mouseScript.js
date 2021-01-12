@@ -21,6 +21,7 @@ let vol = function(mouseY){
 
 
 
+
 document.addEventListener("mousemove", function (e) {
 if (mouseDown){
     oscillatorNode.frequency.setTargetAtTime(freq(e.clientX),context.currentTime,0.01);
