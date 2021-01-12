@@ -1,3 +1,5 @@
+let X = 0;
+let Y = 0;
 function initialize(){
 	if (navigator.requestMIDIAccess) {
 		navigator.requestMIDIAccess()
@@ -54,8 +56,7 @@ function initialize(){
 	function onMIDIMessage(event){
 		let string = "";
 		let res;
-		let X = 0;
-		let Y = 0;
+
 		for (byte of event.data){
 			// string += byte.toString(7) + " " + byte.toString(16);
 			string += byte.toString(10) + " ";
@@ -69,3 +70,57 @@ function initialize(){
 		
 	}
 }
+
+
+let maxFreq = 2000;
+let mouseDown=false;
+
+let context = new AudioContext();
+
+let oscillatorNode = context.createOscillator();
+let gainNode = context.createGain();
+
+oscillatorNode.start();
+
+
+let freq = function(mouseX){
+    return((mouseX/innerWidth)*maxFreq);
+}
+
+let vol = function(mouseY){
+    return((mouseY/innerHeight));
+}
+
+
+
+
+document.addEventListener("mousemove", function (e) {
+if (mouseDown){
+    oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
+    gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
+}
+})
+
+
+
+document.addEventListener("mouseup",function(e){
+    mouseDown=false;
+    oscillatorNode.disconnect(gainNode);
+    gainNode.disconnect(context.destination);
+
+    //oscillatorNode.stop(context.currentTime+0.01);
+
+})
+
+
+document.addEventListener("mousedown", function(e){
+
+    mouseDown=true;
+
+    oscillatorNode.connect(gainNode);
+    gainNode.connect(context.destination);
+
+    
+
+})
+

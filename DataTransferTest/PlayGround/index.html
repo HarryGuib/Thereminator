@@ -4,8 +4,11 @@
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="gradient">
+<body class="gradient" onload="initialize()">
+    MIDI Input: <select id="inputportselector"></select>
+    <button type="button" id="connectbutton">Öffnen</button><br>
+    incoming message: <span id="label">undefined</span>
     <canvas height:100% width:100%></canvas>
-    <script src="mouseScript.js" ></script>
+    <script src="fusion.js" ></script>
 </body>
 </html>
