@@ -101,27 +101,20 @@ let vol = function(mouseY){
 
 // }
 // })
+// document.addEventListener("mouseup",function(e){
+//     mouseDown=false;
+//     oscillatorNode.disconnect(gainNode);
+//     gainNode.disconnect(context.destination);
 
+//     //oscillatorNode.stop(context.currentTime+0.01);
 
-
-document.addEventListener("mouseup",function(e){
-    mouseDown=false;
-    oscillatorNode.disconnect(gainNode);
-    gainNode.disconnect(context.destination);
-
-    //oscillatorNode.stop(context.currentTime+0.01);
-
-})
-
+// })
 
 document.addEventListener("mousedown", function(e){
 
     mouseDown=true;
-
     oscillatorNode.connect(gainNode);
     gainNode.connect(context.destination);
-
-    
 
 })
 
