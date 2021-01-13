@@ -108,9 +108,10 @@ document.getElementById("stop").addEventListener("click", onStop);
 // if (mouseDown){
 	setInterval(function(){ 
 		console.log("X: "+X+ " Y: "+Y)
+		marker(X,Y)
 		oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
 		gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
-	}, 100);
+	}, 20);
 
 // }
 // })
@@ -130,4 +131,18 @@ document.getElementById("stop").addEventListener("click", onStop);
 //     gainNode.connect(context.destination);
 
 // })
+
+// ======== Marker =================
+function marker (x,y)
+{
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+	ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+	ctx.beginPath();
+	ctx.arc(500-(x/128) * 500,(y/128)*500 ,10,0,2*Math.PI);
+	ctx.fillStyle = "rgb(255,"+(x*2+1)+","+(y*2+1)+")";
+	ctx.fill();
+}
+
+//====================================
 

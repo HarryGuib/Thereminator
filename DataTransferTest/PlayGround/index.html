@@ -5,12 +5,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="gradient" onload="initialize()">
-    MIDI Input: <select id="inputportselector"></select>
-    <button type="button" id="connectbutton">Öffnen</button><br>
-    incoming message: <span id="label">undefined</span>
-    <button type="button" id="start">Play</button><br>
-    <button type="button" id="stop">Stop</button><br>
-    <canvas height:100% width:100%></canvas>
+    <div>
+        MIDI Input: <select id="inputportselector"></select>
+        <button type="button" id="connectbutton">Öffnen</button><br>
+        <p style="color: white;">incoming message: <span style="color: white;" id="label">undefined</span></p>
+        
+        
+    </div>
+
+    <div id="drawingboard">
+        <canvas id="myCanvas" width="500" height="500"
+        style="border:1px solid #d3d3d3;">
+        </canvas>
+    </div>
+    <div class="buttons">
+        <button type="button" id="start">Play</button><br>
+        <button type="button" id="stop">Stop</button><br>
+    </div>
+
     <script src="fusion.js" ></script>
 </body>
 </html>

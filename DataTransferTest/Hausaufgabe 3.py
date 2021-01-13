@@ -32,7 +32,7 @@ def sendNoteOff(note, velocity):
 	midiOutput.send(message)
 
 # typicalRed =  np.array([175,160, 102])
-typicalRed =  np.array([100,100, 100])
+typicalRed =  np.array([55,181, 255])
 
 while(cap.isOpened()):
 
