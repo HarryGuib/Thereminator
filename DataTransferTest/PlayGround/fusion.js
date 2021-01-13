@@ -41,8 +41,7 @@ function initialize(){
 			// document.getElementById("connectbutton").addEventListener("click", onConnect);
 			// function onConnect(){
 				var optionsMenu = document.getElementById("inputportselector");
-				var portName = optionsMenu.options[optionsMenu.selectedIndex].text;
-		
+				var portName = optionsMenu.options[optionsMenu.selectedIndex].text;		
 				initializeInputPort(portName);
 			//}
 		}	
@@ -71,7 +70,6 @@ function initialize(){
 	}
 }
 
-
 let maxFreq = 2000;
 let mouseDown=false;
 
@@ -90,6 +88,21 @@ let freq = function(mouseX){
 let vol = function(mouseY){
     return((mouseY/127));
 }
+function onStart()
+{
+	oscillatorNode.connect(gainNode);
+    gainNode.connect(context.destination);
+}
+
+function onStop()
+{
+	oscillatorNode.disconnect(gainNode);
+    gainNode.disconnect(context.destination);
+    //oscillatorNode.stop(context.currentTime+0.01);
+}
+
+document.getElementById("start").addEventListener("click", onStart);
+document.getElementById("stop").addEventListener("click", onStop);
 
 // document.addEventListener("mousemove", function (e) {
 // if (mouseDown){
@@ -110,11 +123,11 @@ let vol = function(mouseY){
 
 // })
 
-document.addEventListener("mousedown", function(e){
+// document.addEventListener("mousedown", function(e){
 
-    mouseDown=true;
-    oscillatorNode.connect(gainNode);
-    gainNode.connect(context.destination);
+//     mouseDown=true;
+//     oscillatorNode.connect(gainNode);
+//     gainNode.connect(context.destination);
 
-})
+// })
 

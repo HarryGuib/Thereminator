@@ -31,9 +31,14 @@ def sendNoteOff(note, velocity):
 	message = mido.Message('note_off', note=note, velocity=velocity)
 	midiOutput.send(message)
 
+# typicalRed =  np.array([175,160, 102])
+typicalRed =  np.array([100,100, 100])
+
 while(cap.isOpened()):
 
     ret, frame = cap.read()
+
+
 
     #HSV (nicht die Fußballmanschaft)
     #Hab die farben dadurch bekommen das ich die hsv werte abgelesen hab (GM2) und eine toleranz von +-10 gesetzt habe
@@ -48,7 +53,26 @@ while(cap.isOpened()):
     schwellenWert = np.array([hue,sat,val])
 
     #DANCE VIDEO (rote farbe vom Handschuh)
-    typicalRed =  np.array([175,160, 102])
+#==============================================================
+
+    def click(event, x, y, flags, param):
+        if (event == cv2.EVENT_LBUTTONDOWN):
+            (b, g, r) = frame[y, x]
+            print("Pixel Position ({}, {}) - Rot: {}, Grün: {}, Blau: {}".format(x,y,r,g,b))
+            frame[0:10, 0:10] = [b,g,r]
+            lupe[0:200, 0:200] = [b,g,r]
+            cv2.imshow("Lupe", lupe)
+            global typicalRed
+            typicalRed =  np.array([b,g,r])
+        #cv2.imshow("Image", frame)
+
+    # img = cv2.imread("spongebobmarkup.jpg")
+    #cv2.imshow("Image", frame)
+
+    lupe = np.zeros(shape=(200, 200, 3), dtype=np.uint8)
+    cv2.setMouseCallback("FRAME", click)
+    print("typicalRed "+str(typicalRed))
+#==============================================================
 
     #Color wonach gesucht wird in der Kamera
     #typicalRed = np.array([179*(350/360),255*0.88, 255*0.62])
@@ -73,7 +97,7 @@ while(cap.isOpened()):
                 cv2.circle(frame,(cx,cy),2,(255,255,0),-1)
                 valueX = (cx / 640) * 128
                 valueY = (cy / 480) * 128
-                print("valueY"+str(valueY))
+                #print("valueY"+str(valueY))
                 sendNoteOn(int(valueX), int(valueY))
 
                 #Box mit Winkel
@@ -86,13 +110,6 @@ while(cap.isOpened()):
                 x,y,w,h = cv2.boundingRect(cnt)
                 cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
 
-
-
-
-
-
-    
-
     #normale frame darstellen
     cv2.imshow("FRAME",frame)
 
@@ -101,8 +118,11 @@ while(cap.isOpened()):
 
 
 
+
     if cv2.waitKey(25)!=-1:
         break
 
 cap.release()
 cv2.destroyAllWindows()
+
+
