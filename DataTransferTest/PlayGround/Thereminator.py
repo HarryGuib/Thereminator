@@ -8,15 +8,12 @@ from numpy.lib.function_base import median
 #cap = cv2.VideoCapture('Micro-dance_2_.avi')
 cap = cv2.VideoCapture(0)
 
-#file = codecs.open("C:\\Users\\Miles\\Documents\\AVPRG_W20\\Thereminator\\DataTransferTest\\PlayGround\\index.html","r")
 #webbrowser.open("C:\\Users\\Miles\\Documents\\AVPRG_W20\\Thereminator\\DataTransferTest\\PlayGround\\index.html")
-
 print("MIDI output ports: ", mido.get_output_names())
 midiList = mido.get_output_names()
 for midi in midiList:
     if("MIDI 1" in midi ):
         midiOutput = mido.open_output(midi)
-
 
 def do_nothing():
     return
@@ -47,12 +44,9 @@ while(cap.isOpened()):
     frame = cv2.flip(frame, +1)
 
 
-
     #HSV (nicht die Fußballmanschaft)
     #Hab die farben dadurch bekommen das ich die hsv werte abgelesen hab (GM2) und eine toleranz von +-10 gesetzt habe
     hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    #h, s, v = cv2.split(hsvFrame)
 
     hue = cv2.getTrackbarPos('Hue','HSV')
     sat = cv2.getTrackbarPos('Saturation','HSV')
@@ -60,8 +54,7 @@ while(cap.isOpened()):
 
     schwellenWert = np.array([hue,sat,val])
 
-    #DANCE VIDEO (rote farbe vom Handschuh)
-#==============================================================
+#=============== Farbe auswählen für Marker ===================
 
     def click(event, x, y, flags, param):
         if (event == cv2.EVENT_LBUTTONDOWN):
@@ -72,25 +65,15 @@ while(cap.isOpened()):
             cv2.imshow("Lupe", lupe)
             global typicalRed
             typicalRed =  np.array([b,g,r])
-        #cv2.imshow("Image", frame)
-
-    # img = cv2.imread("spongebobmarkup.jpg")
-    #cv2.imshow("Image", frame)
 
     lupe = np.zeros(shape=(200, 200, 3), dtype=np.uint8)
     cv2.setMouseCallback("FRAME", click)
     #print("typicalRed "+str(typicalRed))
 #==============================================================
 
-    #Color wonach gesucht wird in der Kamera
-    #typicalRed = np.array([179*(350/360),255*0.88, 255*0.62])
-
-    
     redd = cv2.inRange(hsvFrame,typicalRed-schwellenWert,typicalRed+schwellenWert)
-
     kSize = 5
     medianFrame = cv2.medianBlur(redd,kSize)
-
 
     #Center
     contours,hierarchy = cv2.findContours(medianFrame, 1, 2)
@@ -105,7 +88,6 @@ while(cap.isOpened()):
                 cv2.circle(frame,(cx,cy),2,(255,255,0),-1)
                 valueX = (cx / 640) * 128
                 valueY = (cy / 480) * 128
-                #print("valueY"+str(valueY))
                 sendNoteOn(int(valueX), int(valueY))
 
                 #Box mit Winkel
@@ -124,13 +106,8 @@ while(cap.isOpened()):
     #Mask frame darstellen
     cv2.imshow("MASK",medianFrame)
 
-
-
-
     if cv2.waitKey(25)!=-1:
         break
 
 cap.release()
 cv2.destroyAllWindows()
-
-

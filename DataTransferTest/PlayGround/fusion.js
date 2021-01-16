@@ -1,5 +1,6 @@
 let X = 0;
 let Y = 0;
+//================= MIDI VERBINDUNG ==============================================================================
 function initialize(){
 	if (navigator.requestMIDIAccess) {
 		navigator.requestMIDIAccess()
@@ -57,18 +58,18 @@ function initialize(){
 		let res;
 
 		for (byte of event.data){
-			// string += byte.toString(7) + " " + byte.toString(16);
 			string += byte.toString(10) + " ";
 			res = string.split(" ");
 			X = res[1];
 			Y = res[2];
 		}
-		//console.log("X: "+res[1]+" Y:"+res[2]);
 		// Darstellung der MIDI-Strings im Textfeld
 		document.getElementById("label").innerHTML = string;
 		
 	}
 }
+//============================================================================================================================
+//======================== Oscillator Shit ===================================================================================
 let maxFreq = 2000;
 let mouseDown=false;
 
@@ -97,39 +98,18 @@ function onStop()
 {
 	oscillatorNode.disconnect(gainNode);
     gainNode.disconnect(context.destination);
-    //oscillatorNode.stop(context.currentTime+0.01);
 }
 
 document.getElementById("start").addEventListener("click", onStart);
 document.getElementById("stop").addEventListener("click", onStop);
 
-// document.addEventListener("mousemove", function (e) {
-// if (mouseDown){
-	setInterval(function(){ 
-		console.log("X: "+X+ " Y: "+Y)
-		marker(X,Y)
-		oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
-		gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
-	}, 20);
-
-// }
-// })
-// document.addEventListener("mouseup",function(e){
-//     mouseDown=false;
-//     oscillatorNode.disconnect(gainNode);
-//     gainNode.disconnect(context.destination);
-
-//     //oscillatorNode.stop(context.currentTime+0.01);
-
-// })
-
-// document.addEventListener("mousedown", function(e){
-
-//     mouseDown=true;
-//     oscillatorNode.connect(gainNode);
-//     gainNode.connect(context.destination);
-
-// })
+setInterval(function(){ 
+	console.log("X: "+X+ " Y: "+Y)
+	marker(X,Y)
+	oscillatorNode.frequency.setTargetAtTime(freq(X),context.currentTime,0.01);
+	gainNode.gain.setTargetAtTime(vol(Y),context.currentTime,0.01);
+}, 20);
+//============================================================================================================================
 
 // ======== Marker =================
 function marker (x,y)
@@ -145,6 +125,4 @@ function marker (x,y)
 	ctx.fillStyle = "rgb(255,"+(x*2+1)+","+(y*2+1)+")";
 	ctx.fill();
 }
-
 //====================================
-
