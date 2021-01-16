@@ -1,6 +1,5 @@
 body{
-    width: 100%;
-    height: 100%;
+
     background-color: black;
     display: flex;
     justify-content: center;
@@ -9,13 +8,62 @@ body{
 
 
 }
-
+h1{
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .buttons{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    
 
 }
+
+.button {
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 8px 50px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  
+  
+  .button5 {
+    background-color: black;
+    color: white;
+    border: 2px solid #ffffff;
+  }
+  
+  .button5:hover {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+  }
+
+  #trailText{
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 16px 32px;
+  }
+
+
+  .checkboxArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    font-size: 16px;
+    margin: 8px 50px;
+    background-color: black;
+    color: white;
+    border: 2px solid #ffffff;
+    padding-bottom: 10px;
+  }
 /* canvas{
     width: 100%;
     height: 100%;

@@ -1,4 +1,5 @@
 import numpy as np
+import webbrowser
 import rtmidi
 import mido
 import cv2
@@ -7,9 +8,15 @@ from numpy.lib.function_base import median
 #cap = cv2.VideoCapture('Micro-dance_2_.avi')
 cap = cv2.VideoCapture(0)
 
+#file = codecs.open("C:\\Users\\Miles\\Documents\\AVPRG_W20\\Thereminator\\DataTransferTest\\PlayGround\\index.html","r")
+#webbrowser.open("C:\\Users\\Miles\\Documents\\AVPRG_W20\\Thereminator\\DataTransferTest\\PlayGround\\index.html")
 
 print("MIDI output ports: ", mido.get_output_names())
-midiOutput = mido.open_output("2- LoopBe Internal MIDI 1")
+midiList = mido.get_output_names()
+for midi in midiList:
+    if("MIDI 1" in midi ):
+        midiOutput = mido.open_output(midi)
+
 
 def do_nothing():
     return
@@ -37,6 +44,7 @@ typicalRed =  np.array([55,181, 255])
 while(cap.isOpened()):
 
     ret, frame = cap.read()
+    frame = cv2.flip(frame, +1)
 
 
 
@@ -71,7 +79,7 @@ while(cap.isOpened()):
 
     lupe = np.zeros(shape=(200, 200, 3), dtype=np.uint8)
     cv2.setMouseCallback("FRAME", click)
-    print("typicalRed "+str(typicalRed))
+    #print("typicalRed "+str(typicalRed))
 #==============================================================
 
     #Color wonach gesucht wird in der Kamera

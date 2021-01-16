@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html height:100%>
 <head>
-    <title>Title</title>
+    <title>THEREMINATOR</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="gradient" onload="initialize()">
-    <div>
+        <h1>THEREMINATOR</h1>
         MIDI Input: <select id="inputportselector"></select>
-        <button type="button" id="connectbutton">Öffnen</button><br>
-        <p style="color: white;">incoming message: <span style="color: white;" id="label">undefined</span></p>
-        
-        
-    </div>
-
+        <button class="button button5 " id="connectbutton">Öffnen</button><br>
+        <p style="color: white; font-family: Verdana, Geneva, Tahoma, sans-serif;">incoming message: <span style="color: white;" id="label">undefined</span></p>
     <div id="drawingboard">
         <canvas id="myCanvas" width="500" height="500"
         style="border:1px solid #d3d3d3;">
         </canvas>
     </div>
     <div class="buttons">
-        <button type="button" id="start">Play</button><br>
-        <button type="button" id="stop">Stop</button><br>
+        <button id ="start" class="button button5">Play</button>
+        <div class="checkboxArea">
+            <label for="trail" id = "trailText"> Trail </label>
+            <input type="checkbox" id="trail" name="Trail" >
+        </div>
+        <button id ="stop" class="button button5">Stop</button>
+
     </div>
 
     <script src="fusion.js" ></script>
