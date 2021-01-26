@@ -62,7 +62,7 @@ while(cap.isOpened()):
             print("Pixel Position ({}, {}) - Rot: {}, Grün: {}, Blau: {}".format(x,y,r,g,b))
             frame[0:10, 0:10] = [b,g,r]
             lupe[0:200, 0:200] = [b,g,r]
-            cv2.imshow("Lupe", lupe)
+            cv2.imshow("Color", lupe)
             global typicalRed
             typicalRed =  np.array([b,g,r])
 
